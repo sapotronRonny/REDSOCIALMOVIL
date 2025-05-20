@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnIrRegistro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Registrar Usuario"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp"
+        android:backgroundTint="#ff4a1c"
+        android:textColor="#FFFFFF">
+
+    </Button>
+
+    <Button
+        android:id="@+id/btnVerRegistro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver registro"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp"
+        android:backgroundTint="#ff4a1c"
+        android:textColor="#FFFFFF">
+    </Button>
+</LinearLayout>
