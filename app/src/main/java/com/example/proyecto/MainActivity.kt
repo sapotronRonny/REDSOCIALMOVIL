@@ -13,10 +13,12 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_main)
 
         // Enlace clickeable para registro
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        spannable.setSpan(clickableSpan, 21, texto.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannable.setSpan(clickableSpan, 18, texto.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         linkRegistro.text = spannable
         linkRegistro.movementMethod = LinkMovementMethod.getInstance()
 

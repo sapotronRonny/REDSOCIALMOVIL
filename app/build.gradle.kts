@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt") //habilita las anotaciones para room
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -51,5 +52,7 @@ dependencies {
     kapt(libs.androidx.room.compiler)  //genere el codigo de base de datos
     implementation(libs.kotlinx.coroutines.core)// tareas en backgroud
     implementation(libs.kotlinx.coroutines.android) //tareas asincronas
-
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
 }

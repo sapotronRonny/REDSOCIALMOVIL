@@ -9,16 +9,14 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
-import com.example.proyecto.database.AppDatabase
 import com.example.proyecto.model.Usuario
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class RegisterActivity : AppCompatActivity() {
 
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
     private lateinit var etNombre: EditText
     private lateinit var etCorreo: EditText
     private lateinit var etContraseña: EditText
@@ -33,15 +31,17 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var cardResultado: CardView
     private lateinit var tvResultado: TextView
     private lateinit var btnLimpiar: Button
-    private lateinit var db: AppDatabase
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
         setContentView(R.layout.registro)
 
-        inicializarBD()
+
 
         etNombre = findViewById(R.id.etNombre)
         etCorreo = findViewById(R.id.etCorreo)
@@ -77,88 +77,80 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+
     private fun enviarDatos() {
         val nombre = etNombre.text.toString().trim()
         val correo = etCorreo.text.toString().trim()
-        val contraseña = etContraseña.text.toString()
+        val contraseña = etContraseña.text.toString().trim()
 
-        // Validaciones
-        if (nombre.isEmpty()) {
-            etNombre.error = "Debe ingresar datos válidos"
+        // Validaciones (puedes dejar las tuyas si ya funcionan)
+        if (nombre.isEmpty() || nombre.length < 8 || nombre.any { it.isDigit() }) {
+            etNombre.error = "Nombre inválido"
             return
-        } else if (nombre.length < 8) {
-            etNombre.error = "El nombre debe tener al menos 8 caracteres"
-            return
-        } else if (nombre.any { it.isDigit() }) {
-            etNombre.error = "El nombre no debe contener números"
-            return
-        } else {
-            etNombre.error = null
         }
 
-        if (correo.isEmpty()) {
-            etCorreo.error = "Debe ingresar datos válidos"
+        if (correo.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
+            etCorreo.error = "Correo inválido"
             return
-        } else if (!correo.contains("@") || !correo.endsWith("gmail.com")) {
-            etCorreo.error = "Dominio no válido solo gmail.com permitido"
-            return
-        } else {
-            etCorreo.error = null
         }
 
         if (contraseña.length < 8 || !contraseña.any { it.isDigit() } || !contraseña.any { it.isUpperCase() }) {
-            etContraseña.error = "La contraseña debe tener al menos 8 caracteres, una mayúscula y un número"
+            etContraseña.error = "Contraseña débil"
             return
-        } else {
-            etContraseña.error = null
         }
 
         val idGeneroSeleccionado = rgGenero.checkedRadioButtonId
         if (idGeneroSeleccionado == -1) {
-            Toast.makeText(this, "Debe seleccionar un género", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Selecciona un género", Toast.LENGTH_SHORT).show()
             return
         }
 
         val genero = findViewById<RadioButton>(idGeneroSeleccionado).text.toString()
-        val provincias = spnProvincias.selectedItem.toString()
+        val provincia = spnProvincias.selectedItem.toString()
 
-        val noticias = mutableListOf<String>().apply {
+        val noticia = mutableListOf<String>().apply {
             if (checkDeportes.isChecked) add("Deportes")
             if (checkCultura.isChecked) add("Cultura")
             if (checkEducacion.isChecked) add("Educación")
             if (checkSalud.isChecked) add("Salud")
             if (checkPolitica.isChecked) add("Política")
-        }.joinToString(", ")
-
-        val usuario = Usuario(
-            nombre = nombre,
-            correo = correo,
-            genero = genero,
-            noticias = noticias,
-            provincias = provincias
-        )
-
-        registrarUsuarios(usuario)
-    }
-
-    private fun inicializarBD() {
-        db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "mi_base_datos"
-        ).build()
-    }
-
-    private fun registrarUsuarios(usuario: Usuario) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            db.usuarioDao().insertar(usuario)
-            withContext(Dispatchers.Main) {
-                Toast.makeText(this@RegisterActivity, "Usuario Registrado", Toast.LENGTH_SHORT).show()
-                limpiarForm()
-                irHome()
-            }
         }
+
+        // Crear usuario con correo y contraseña
+        auth.createUserWithEmailAndPassword(correo, contraseña)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
+
+                    // Crear objeto usuario
+                    val datosUsuario = hashMapOf(
+                        "nombre" to nombre,
+                        "correo" to correo,
+                        "genero" to genero,
+                        "provincia" to provincia,
+                        "noticia" to noticia
+                    )
+
+                    // Guardar en Firestore
+                    db.collection("usuarios").document(userId)
+                        .set(datosUsuario)
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Registro exitoso", Toast.LENGTH_LONG).show()
+                            irHome()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "Error al guardar datos: ${it.message}", Toast.LENGTH_LONG).show()
+                        }
+
+                } else {
+                    Toast.makeText(this, "Error al crear usuario: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                }
+            }
     }
+
+
+
+
 
     private fun limpiarForm() {
         etNombre.text.clear()
@@ -179,8 +171,77 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun irHome() {
-        val intent = Intent(this, HomeActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
+
+
 }
+
+
+
+
+//    private fun enviarDatos() {
+//        val nombre = etNombre.text.toString().trim()
+//        val correo = etCorreo.text.toString().trim()
+//        val contraseña = etContraseña.text.toString().trim()
+//
+//        // Validaciones nombre
+//        if (nombre.isEmpty()) {
+//            etNombre.error = "Debe ingresar datos válidos"
+//            return
+//        } else if (nombre.length < 8) {
+//            etNombre.error = "El nombre debe tener al menos 8 caracteres"
+//            return
+//        } else if (nombre.any { it.isDigit() }) {
+//            etNombre.error = "El nombre no debe contener números"
+//            return
+//        } else {
+//            etNombre.error = null
+//        }
+////validaciones correo
+//        if (correo.isEmpty()) {
+//            etCorreo.error = "Debe ingresar datos válidos"
+//            return
+//        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(correo).matches())  {
+//            etCorreo.error = "Dominio de correo no valido"
+//            return
+//        } else {
+//            etCorreo.error = null
+//        }
+////validaciones contraseña
+//        if (contraseña.length < 8 || !contraseña.any { it.isDigit() } || !contraseña.any { it.isUpperCase() }) {
+//            etContraseña.error = "La contraseña debe tener al menos 8 caracteres, una mayúscula y un número"
+//            return
+//        } else {
+//            etContraseña.error = null
+//        }
+//
+//        val idGeneroSeleccionado = rgGenero.checkedRadioButtonId
+//        if (idGeneroSeleccionado == -1) {
+//            Toast.makeText(this, "Debe seleccionar un género", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//
+//        val genero = findViewById<RadioButton>(idGeneroSeleccionado).text.toString()
+//        val provincias = spnProvincias.selectedItem.toString()
+//
+//        val categoria = mutableListOf<String>().apply {
+//            if (checkDeportes.isChecked) add("Deportes")
+//            if (checkCultura.isChecked) add("Cultura")
+//            if (checkEducacion.isChecked) add("Educación")
+//            if (checkSalud.isChecked) add("Salud")
+//            if (checkPolitica.isChecked) add("Política")
+//        }.joinToString(", ")
+//
+//        val usuario = Usuario(
+//            nombre = nombre,
+//            correo = correo,
+//            genero = genero,
+//            categoria = categoria,
+//            provincias = provincias
+//        )
+//
+//
+//    }
