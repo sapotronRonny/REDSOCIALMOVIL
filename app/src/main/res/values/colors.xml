@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorTextoBienvenida">#ff4a1c</color>
     <color name="naranjaalternativo">#d4af37</color>
+    <color name="mi_color_personalizado">#FF5722</color>
 </resources>

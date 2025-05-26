@@ -13,9 +13,6 @@
         android:theme="@style/Theme.Proyecto"
         tools:targetApi="31">
         <activity
-            android:name=".RegistrosActivity"
-            android:exported="false" />
-        <activity
             android:name=".HomeActivity"
             android:exported="false">
 
