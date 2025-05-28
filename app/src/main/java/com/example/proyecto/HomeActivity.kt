@@ -1,18 +1,15 @@
 package com.example.proyecto
 
-
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class HomeActivity : AppCompatActivity() {
 
@@ -42,14 +39,24 @@ class HomeActivity : AppCompatActivity() {
                 }
                 R.id.nav_logout -> {
                     Toast.makeText(this, "Cerrando sesión...", Toast.LENGTH_SHORT).show()
-                    // Agrega lógica para cerrar sesión
+                    cerrarSesion()
                 }
             }
             drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
     }
+
+    private fun cerrarSesion() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(this, MainActivity::class.java)
+        // Esto limpia el stack de actividades para que no pueda volver con "atrás"
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
 }
+
 
 //package com.example.proyecto
 //
