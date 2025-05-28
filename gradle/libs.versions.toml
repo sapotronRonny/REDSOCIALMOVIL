@@ -12,6 +12,7 @@ constraintlayout = "2.2.1"
 room = "2.6.1" #definimos libreria room
 kotlinx-coroutines = "1.7.1" #version para las operaciones sobre la bd
 
+
 firebase-bom = "32.7.0"
 firebase-auth = "22.3.1"
 firebase-firestore = "24.10.3"
