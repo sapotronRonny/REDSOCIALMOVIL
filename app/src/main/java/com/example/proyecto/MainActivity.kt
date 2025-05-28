@@ -2,6 +2,7 @@ package com.example.proyecto
 
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -13,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
