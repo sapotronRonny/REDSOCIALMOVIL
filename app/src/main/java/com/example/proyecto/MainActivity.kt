@@ -25,6 +25,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
+
+        val usuario = FirebaseAuth.getInstance().currentUser
+        if (usuario != null) {
+            //Ya esta logeado, saltar al home directamente
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+            return //Evita que se cargue el resto del codigo
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.statusBarColor = ContextCompat.getColor(this, R.color.mi_color_personalizado)
         }
