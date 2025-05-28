@@ -37,10 +37,12 @@ class HomeActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_profile -> {
                     Toast.makeText(this, "Perfil seleccionado", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, PerfilActivity::class.java)
+                    startActivity(intent)
                 }
                 R.id.nav_logout -> {
                     Toast.makeText(this, "Cerrando sesión...", Toast.LENGTH_SHORT).show()
-                    // Aquí puedes agregar lógica para cerrar sesión
+                    // Agrega lógica para cerrar sesión
                 }
             }
             drawerLayout.closeDrawer(GravityCompat.START)
