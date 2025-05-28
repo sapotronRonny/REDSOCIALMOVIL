@@ -37,7 +37,7 @@ class HomeActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_profile -> {
                     Toast.makeText(this, "Perfil seleccionado", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, PerfilActivity::class.java)
+                    val intent = Intent(this, ProfileActivity::class.java)
                     startActivity(intent)
                 }
                 R.id.nav_logout -> {
