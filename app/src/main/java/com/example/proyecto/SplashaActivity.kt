@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import com.example.proyecto.utils.SessionManager
 
-class SplashActivity : AppCompatActivity() {
+class SplashaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        setContentView(R.layout.activity_splasha)
 
         Handler(Looper.getMainLooper()).postDelayed({
             val sessionManager = SessionManager(this)
