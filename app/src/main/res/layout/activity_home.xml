@@ -40,6 +40,17 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_agregar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="Agregar publicación"
+        android:src="@android:drawable/ic_input_add"
+        app:tint="@android:color/white"
+        app:backgroundTint="@color/purple_500" />
+
 </androidx.drawerlayout.widget.DrawerLayout>
 
 
