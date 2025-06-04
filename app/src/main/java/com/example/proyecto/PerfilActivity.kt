@@ -18,7 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 
 
-class ProfileActivity : AppCompatActivity() {
+class PerfilActivity : AppCompatActivity() {
 
     private lateinit var listViewUser:ListView
     override fun onCreate(savedInstanceState: Bundle?) {
