@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.proyecto"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.storage.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -52,7 +53,10 @@ dependencies {
     kapt(libs.androidx.room.compiler)  //genere el codigo de base de datos
     implementation(libs.kotlinx.coroutines.core)// tareas en backgroud
     implementation(libs.kotlinx.coroutines.android) //tareas asincronas
-    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+
+
+    implementation (libs.firebase.common)
     implementation(libs.firebase.firestore)
+    implementation(platform(libs.firebase.bom))
 }

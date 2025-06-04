@@ -156,6 +156,45 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"/>
 
+
+            <TextView
+                android:id="@+id/tvFotoTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Foto de perfil"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"/>
+
+            <ImageView
+                android:id="@+id/ivFoto"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/border_image" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/btnTomarFoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tomar foto"/>
+
+                <Button
+                    android:id="@+id/btnCargarFoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Cargar desde galería"/>
+            </LinearLayout>
+
             <Button
                 android:id="@+id/btnRegistro"
                 android:layout_width="match_parent"
@@ -165,6 +204,7 @@
                 android:backgroundTint="#ff4a1c"
                 app:cornerRadius="12dp"
                 android:textColor="#FFFFFF"/>
+
 
             <Button
                 android:id="@+id/btnLimpiar"

@@ -7,7 +7,7 @@ class AgregarPublicacionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_agregar_publicaciones)
+        setContentView(R.layout.activity_agregar_publicaciones )
 
         supportActionBar?.title = "Nueva Publicación"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

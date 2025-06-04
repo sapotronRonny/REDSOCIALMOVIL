@@ -5,5 +5,6 @@ data class Usuario(
     val correo: String = "",
     val genero: String = "",
     val noticia: String = "",
-    val provincias: String = ""
+    val provincias: String = "",
+    val fotoUrl: String = ""
 )

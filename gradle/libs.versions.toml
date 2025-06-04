@@ -13,9 +13,10 @@ room = "2.6.1" #definimos libreria room
 kotlinx-coroutines = "1.7.1" #version para las operaciones sobre la bd
 
 
-firebase-bom = "32.7.0"
-firebase-auth = "22.3.1"
-firebase-firestore = "24.10.3"
+firebase-bom = "33.14.0"
+firebase-auth = "23.2.1"
+firebaseStorageKtx = "21.0.2"
+#firebase-firestore = "24.10.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,10 +32,16 @@ androidx-room-compiler= { group = "androidx.room", name = "room-compiler", versi
 androidx-room-ktx= { group = "androidx.room", name = "room-ktx", version.ref = "room"}
 kotlinx-coroutines-core = {group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines"}
 kotlinx-coroutines-android = {group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines"}
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-common = { module = "com.google.firebase:firebase-common" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 
-firebase-bom = { module="com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
 firebase-auth = { module="com.google.firebase:firebase-auth-ktx", version.ref = "firebase-auth" }
-firebase-firestore = { module="com.google.firebase:firebase-firestore-ktx", version.ref = "firebase-firestore" }
+firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
+
+
+#firebase-bom = { module="com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+#firebase-firestore = { module="com.google.firebase:firebase-firestore-ktx", version.ref = "firebase-firestore" }
 
 
 [plugins]
