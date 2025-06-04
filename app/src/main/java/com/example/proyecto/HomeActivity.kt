@@ -27,7 +27,7 @@ class HomeActivity : AppCompatActivity() {
 
         val fabAgregar: FloatingActionButton = findViewById(R.id.fab_agregar)
         fabAgregar.setOnClickListener {
-            val intent = Intent(this, AgregarPublicacionActivity::class.java)
+            val intent = Intent(this, AgregarPublicacionesActivity::class.java)
             startActivity(intent)
         }
 
@@ -43,7 +43,7 @@ class HomeActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_profile -> {
                     Toast.makeText(this, "Perfil seleccionado", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, ProfileActivity::class.java)
+                    val intent = Intent(this, PerfilActivity::class.java)
                     startActivity(intent)
                 }
                 R.id.nav_logout -> {
